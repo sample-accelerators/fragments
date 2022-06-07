@@ -13,6 +13,6 @@ spec:
   git:
     ref:
       branch: main
-    url: https://github.com/trisberg/accelerator-fragments.git
+    url: https://github.com/sample-accelerators/fragments.git
     subPath: live-update
 ```
