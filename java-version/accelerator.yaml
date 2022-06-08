@@ -26,4 +26,10 @@ engine:
         regex:
           pattern: "sourceCompatibility = .*"
           with: "'sourceCompatibility = ''' + #javaVersion + ''''"
-  onConflict: FavorForeign
+    - include: [ "config/workload.yaml" ]
+      chain:
+      - type: ReplaceText
+        condition: "#javaVersion == '17'"
+        substitutions:
+          - text: "spec:"
+            with: "'spec:\n  build:\n    env:\n    - name: BP_JVM_VERSION\n      value: \"17\"'"
