@@ -17,6 +17,13 @@ accelerator:
       display: true
       required: true
 
+    - name: includeHasTests
+      inputType: checkbox
+      label: "Include 'has-tests' label for Workloads"
+      display: true
+      dataType: boolean
+      defaultValue: false
+
 engine:
   merge:
     - include: ["config/workload.yaml"]
@@ -33,6 +40,11 @@ engine:
           substitutions:
             - text: main
               with: "#gitBranch"
+        - type: ReplaceText
+          condition: "#includeHasTests"
+          substitutions:
+            - text: "  labels:"
+              with: "'  labels:\n    apps.tanzu.vmware.com/has-tests: \"true\"'"
     - include: ["catalog/catalog-info.yaml"]
       chain:
         - type: ReplaceText
