@@ -26,6 +26,7 @@ accelerator:
 
 engine:
   merge:
+    - include: [".tanzuignore"]
     - include: ["config/workload.yaml"]
       chain:
         - type: ReplaceText
