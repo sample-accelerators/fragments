@@ -4,16 +4,16 @@ accelerator:
   options:
     - name: gitRepository
       inputType: text
-      label: Git Repository for new project
-      description: The Git repository where you plan to push this new project
+      label: Git Repository for the target project
+      description: The Git repository of the project where you will add the generated files
       display: true
       required: true
 
     - name: gitBranch
       inputType: text
-      label: Git Branch for new project
+      label: Git Branch for the target project
       defaultValue: main
-      description: The Git branch you plan to use for this new project
+      description: The Git branch of the project where you will add the generated files
       display: true
       required: true
 
