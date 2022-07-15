@@ -5,7 +5,6 @@ accelerator:
     - name: liveUpdateIDESupport
       inputType: checkbox
       label: Include TAP IDE Support for Java Workloads
-      display: true
       dataType: boolean
       defaultValue: true
 

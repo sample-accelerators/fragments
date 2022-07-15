@@ -6,7 +6,6 @@ accelerator:
       inputType: text
       label: Git Repository for the target project
       description: The Git repository of the project where you will add the generated files
-      display: true
       required: true
 
     - name: gitBranch
@@ -14,13 +13,11 @@ accelerator:
       label: Git Branch for the target project
       defaultValue: main
       description: The Git branch of the project where you will add the generated files
-      display: true
       required: true
 
     - name: includeHasTests
       inputType: checkbox
       label: "Include 'has-tests' label for Workloads"
-      display: true
       dataType: boolean
       defaultValue: false
 
