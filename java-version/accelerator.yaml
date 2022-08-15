@@ -51,12 +51,3 @@ engine:
         options:
           oldKeyPath: '"$.spec.build.env[?(@.name == ''BP_JVM_VERSION'')].value"'
           value: "#workloadJavaVersion"
-    # Covers a case when BP_JVM_VERSION is not defined yet in the workload.yaml
-    - condition: "!#files.contentsOf('config/workload.yaml').get().contains('- name: BP_JVM_VERSION')"
-      include: [ "config/workload.yaml" ]
-      chain:
-      - type: OpenRewriteRecipe
-        recipe: org.openrewrite.yaml.MergeYaml
-        options:
-          key: "'$.spec'"
-          yaml: "'build:\n  env:\n    - name: BP_JVM_VERSION\n      value: \"'+ #workloadJavaVersion + '\"'"
