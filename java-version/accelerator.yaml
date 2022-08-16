@@ -43,7 +43,7 @@ engine:
           with: "'${unmodified}' + #javaVersion.replace('.', '_')"
 
     # workload.yaml
-    # Covers a case when BP_JVM_VERSION is already defined in the workload.yaml
+    # This requires that BP_JVM_VERSION is already defined in the workload.yaml
     - include: [ "config/workload.yaml" ]
       chain:
       - type: OpenRewriteRecipe
