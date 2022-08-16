@@ -14,23 +14,40 @@ accelerator:
     required: true
 
 engine:
+  let:
+    - name: workloadJavaVersion
+      expression: "#javaVersion == '1.8' ? '8' : #javaVersion"
   merge:
+    # Maven
     - include: [ "pom.xml" ]
       chain:
       - type: ReplaceText
         regex:
           pattern: "<java.version>.*<"
           with: "'<java.version>' + #javaVersion + '<'"
+
+    # Gradle Groovy DSL
     - include: [ "build.gradle" ]
       chain:
       - type: ReplaceText
         regex:
           pattern: "sourceCompatibility = .*"
           with: "'sourceCompatibility = ''' + #javaVersion + ''''"
-    - include: [ "config/workload.yaml" ]
+
+    # Gradle Kotlin DSL
+    - include: [ "build.gradle.kts" ]
       chain:
       - type: ReplaceText
-        condition: "#javaVersion == '17'"
-        substitutions:
-          - text: "spec:"
-            with: "'spec:\n  build:\n    env:\n    - name: BP_JVM_VERSION\n      value: \"17\"'"
+        regex:
+          pattern: "(?<unmodified>JavaVersion\\.VERSION_)(\\d*)"
+          with: "'${unmodified}' + #javaVersion.replace('.', '_')"
+
+    # workload.yaml
+    # This requires that BP_JVM_VERSION is already defined in the workload.yaml
+    - include: [ "config/workload.yaml" ]
+      chain:
+      - type: OpenRewriteRecipe
+        recipe: org.openrewrite.yaml.ChangeValue
+        options:
+          oldKeyPath: '"$.spec.build.env[?(@.name == ''BP_JVM_VERSION'')].value"'
+          value: "#workloadJavaVersion"
