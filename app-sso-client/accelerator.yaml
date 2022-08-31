@@ -31,4 +31,4 @@ engine:
           recipe: org.openrewrite.yaml.MergeYaml
           options:
             key: "'$.spec'"
-            yaml: "'serviceClaims:\n  - name: ' + #workloadName + '-client-registration-claim\n    ref:\n      apiVersion: services.apps.tanzu.vmware.com/v1alpha1\n      kind: ResourceClaim\n      name: ' + #workloadName + '-client-registration-claim'"
+            yaml: "'serviceClaims:\n  - name: ' + #workloadName + '\n    ref:\n      apiVersion: services.apps.tanzu.vmware.com/v1alpha1\n      kind: ResourceClaim\n      name: ' + #workloadName + '-client-registration-claim'"
