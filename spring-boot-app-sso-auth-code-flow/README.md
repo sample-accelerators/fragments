@@ -32,22 +32,21 @@ curl -XPOST "$ISSUER_URI/oauth2/token?grant_type=client_credentials&scope=openid
 
 ## Using the fragment
 
-This fragment requires one parameter `packageName` which defines root package of an application to be generated. If your
-accelerator doesn't have this option you can either
-- add it to your option list via including a reference to this fragment to the `imports` directive (see an example below)
-- define it using a `let` directive at the place where this fragment is invoked (see the second yaml snippet below).
+To include this fragment you should add an import to the `accelerator` section:
 
 ```yaml
 accelerator:
-
-# ...
-
+  # ...
   imports:
   - name: spring-boot-app-sso-auth-code-flow
     
 ```
 
-Then in your `engine` section add an `InvokeFragment` directive at an appropriate level. See an example below.
+This fragment requires one parameter `packageName` which defines root package of an application to be generated. 
+If your accelerator has this option with a different name, you can redefine with using a `let` directive at the place
+where this fragment is invoked.
+
+Then in your `engine` section add an `InvokeFragment` directive at an appropriate level.
 
 ```yaml
 engine:
