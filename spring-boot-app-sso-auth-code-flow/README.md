@@ -1,15 +1,19 @@
 # Spring Boot AppSSO Authorization Code Flow Fragment
 
-A Fragment that include AppSSO OIDC Authorization Code Flow into your Spring Boot based Accelerator. This enables a Spring Boot application to support authentication delegated to an AppSSO AuthServer.
+A Fragment that includes AppSSO OIDC Authorization Code Flow into your Spring Boot based Accelerator. This enables
+a Spring Boot application to support authentication delegated to an AppSSO AuthServer.
 
 It adds Spring Security OAuth 2.0 and Thymeleaf dependencies on your `pom.xml` or `build.gradle.kts`.
 It includes `WebSecurityConfiguration` class that configures Spring Security to use OAuth 2.0.
 
-Include an additional Spring MVC Endpoint at `/protected/profile` to trigger the authorization flow and, when succesful, show the logged-in subject.
+It includes an additional Spring MVC Endpoint at `/protected/profile` to trigger the authorization flow and, when successful,
+show the logged-in subject.
 
-> This fragment can be used together with `app-sso-client` which configures the Tanzu Application Platform workload.yaml to bind the ClientRegistration claim. This way Spring Boot is able to find the OAuth 2.0 Client Registration configuration at run-time.
+> This fragment can be used together with `app-sso-client` which configures the Tanzu Application Platform workload.yaml
+> to bind the ClientRegistration claim. This way Spring Boot is able to find the OAuth 2.0 Client Registration configuration at run-time.
 
-It will include a `application-local.yaml` which can be used for local development: fill in the AppSSO registered client credentials, which you can find with:
+It will include a `application-local.yaml` which can be used for local development: fill in the AppSSO registered client
+credentials, which you can find with:
 
 ```bash
 NS=<your-developer-namespace>
@@ -28,7 +32,10 @@ curl -XPOST "$ISSUER_URI/oauth2/token?grant_type=client_credentials&scope=openid
 
 ## Using the fragment
 
-This fragment requires one parameter `packageName` which defines root package of an application to be generated. If your accelerator doesn't have this option you can include it by importing this fragment in your `accelerator.yaml`:
+This fragment requires one parameter `packageName` which defines root package of an application to be generated. If your
+accelerator doesn't have this option you can either
+- add it to your option list via including a reference to this fragment to the `imports` directive (see an example below)
+- define it using a `let` directive at the place where this fragment is invoked (see the second yaml snippet below).
 
 ```yaml
 accelerator:
@@ -39,8 +46,6 @@ accelerator:
   - name: spring-boot-app-sso-auth-code-flow
     
 ```
-
-If you accelerator already has this option but with a different name you can redefine it through a `let` directive at the place where this fragment is invoked (see yaml snippet bellow).
 
 Then in your `engine` section add an `InvokeFragment` directive at an appropriate level. See an example below.
 

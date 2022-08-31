@@ -13,42 +13,43 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @EnableWebSecurity
 public class WebSecurityConfiguration {
-	@Autowired
-	private ClientRegistrationRepository clientRegistrationRepository;
 
-	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests(authorizeRequests ->
-						authorizeRequests
-								// Permit all public paths explicitly
-								.antMatchers("/",
-										"/livez",
-										"/readyz",
-										"/webjars/**",
-										"/styles/**",
-										"/images/**",
-										"/favicon.ico").permitAll()
-								// Secure our Spring MVC Endpoints (basically the rest)
-								.anyRequest().authenticated()
-				)
-				// After a successful logout, redirect to /.
-				.logout().logoutSuccessHandler(oidcLogoutSuccessHandler()).logoutSuccessUrl("/")
-				.and()
-				.oauth2Login(withDefaults())
-				.oauth2Client(withDefaults());
-		return http.build();
-	}
+    @Autowired
+    private ClientRegistrationRepository clientRegistrationRepository;
 
-	// see: https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html#oauth2login-advanced-oidc-logout
-	private LogoutSuccessHandler oidcLogoutSuccessHandler() {
-		OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
-				new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests
+                                // Permit all public paths explicitly
+                                .antMatchers("/",
+                                        "/livez",
+                                        "/readyz",
+                                        "/webjars/**",
+                                        "/styles/**",
+                                        "/images/**",
+                                        "/favicon.ico").permitAll()
+                                // Secure our Spring MVC Endpoints (basically the rest)
+                                .anyRequest().authenticated()
+                )
+                // After a successful logout, redirect to /.
+                .logout().logoutSuccessHandler(oidcLogoutSuccessHandler()).logoutSuccessUrl("/")
+                .and()
+                .oauth2Login(withDefaults())
+                .oauth2Client(withDefaults());
+        return http.build();
+    }
 
-		// Sets the location that the End-User's User Agent will be redirected to
-		// after the logout has been performed at the Provider
-		oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
+    // see: https://docs.spring.io/spring-security/reference/servlet/oauth2/login/advanced.html#oauth2login-advanced-oidc-logout
+    private LogoutSuccessHandler oidcLogoutSuccessHandler() {
+        OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler =
+                new OidcClientInitiatedLogoutSuccessHandler(this.clientRegistrationRepository);
 
-		return oidcLogoutSuccessHandler;
-	}
+        // Sets the location that the End-User's User Agent will be redirected to
+        // after the logout has been performed at the Provider
+        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}");
+
+        return oidcLogoutSuccessHandler;
+    }
 }

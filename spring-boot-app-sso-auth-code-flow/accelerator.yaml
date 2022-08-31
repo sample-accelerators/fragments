@@ -26,42 +26,29 @@ engine:
             - text: "<dependencies>"
               with: |
                 '<dependencies>
+                        <!-- AppSSO/OIDC Integration -->
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                        </dependency>
                         <dependency>
                             <groupId>org.thymeleaf.extras</groupId>
                             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
                         </dependency>
                 '
-        - type: ReplaceText
-          substitutions:
-            - text: "<dependencies>"
-              with: |
-                '<dependencies>
-                        <dependency>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                        </dependency>'
-        - type: ReplaceText
-          substitutions:
-            - text: "<dependencies>"
-              with: |
-                '<dependencies>
-                        <!-- AppSSO/OIDC Integration -->
-                        <dependency>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-                        </dependency>'
 
     - include: [ "build.gradle.kts" ]
       chain:
         - type: ReplaceText
           substitutions:
             - text: "dependencies {"
-              with: "'dependencies {\n    implementation(\"org.springframework.boot:spring-boot-starter-oauth2-client\")'"
-        - type: ReplaceText
-          substitutions:
-            - text: "dependencies {"
-              with: "'dependencies {\n    implementation(\"org.springframework.boot:spring-boot-starter-thymeleaf\")'"
-        - type: ReplaceText
-          substitutions:
-            - text: "dependencies {"
-              with: "'dependencies {\n    implementation(\"org.thymeleaf.extras:thymeleaf-extras-springsecurity5\")'"
+              with: |
+                'dependencies {
+                        implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+                        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+                        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+                '
