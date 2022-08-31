@@ -6,7 +6,7 @@ accelerator:
       required: true
     - name: workloadHost
       inputType: text
-      label: Workload host name
+      label: Workload host name. (A fully qualified domain name the app will be available on, e.g your-app.your-company.com)
       required: true
     - name: appSsoServerLabel
       inputType: text
