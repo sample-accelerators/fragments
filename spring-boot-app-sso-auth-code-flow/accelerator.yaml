@@ -11,7 +11,7 @@ engine:
     - type: Include
       patterns: [ "**/profile.html", "**/application-local.yml" ]
 
-    - include: [ "**/OidcUserController.java", "**/WebSecurityConfiguration.java" ]
+    - include: [ "**/OidcUserController.java", "**/WebSecurityConfiguration.java", "**/TestWebSecurityConfiguration.java" ]
       chain:
         - type: OpenRewriteRecipe
           recipe: org.openrewrite.java.ChangePackage
