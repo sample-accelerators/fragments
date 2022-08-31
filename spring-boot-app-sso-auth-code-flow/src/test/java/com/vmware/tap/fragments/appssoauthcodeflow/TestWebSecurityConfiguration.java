@@ -1,4 +1,4 @@
-package com.jadb.someapp;
+package com.vmware.tap.fragments.appssoauthcodeflow;
 
 import static org.mockito.Mockito.mock;
 
