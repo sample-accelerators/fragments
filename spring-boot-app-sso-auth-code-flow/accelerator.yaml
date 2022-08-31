@@ -1,0 +1,54 @@
+accelerator:
+  options:
+    - name: packageName
+      inputType: text
+      defaultValue: "com.example.customerprofile"
+      label: Application root package
+      required: true
+
+engine:
+  merge:
+    - type: Include
+      patterns: [ "**/profile.html", "**/application-local.yml" ]
+
+    - include: [ "**/OidcUserController.java", "**/WebSecurityConfiguration.java", "**/TestWebSecurityConfiguration.java" ]
+      chain:
+        - type: OpenRewriteRecipe
+          recipe: org.openrewrite.java.ChangePackage
+          options:
+            oldPackageName: "'com.vmware.tap.fragments.appssoauthcodeflow'"
+            newPackageName: "#packageName"
+
+    - include: [ "pom.xml" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "<dependencies>"
+              with: |
+                '<dependencies>
+                        <!-- AppSSO/OIDC Integration -->
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.thymeleaf.extras</groupId>
+                            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                        </dependency>
+                '
+
+    - include: [ "build.gradle.kts" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "dependencies {"
+              with: |
+                'dependencies {
+                    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+                    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+                    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+                '
